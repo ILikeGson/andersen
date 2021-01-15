@@ -1,8 +1,6 @@
 package com.andersen.patterns.creational.factorymethod.product;
 
-import com.andersen.patterns.creational.factorymethod.product.Database;
-
-public class PostgreSql implements Database {
+public class PostgreSqlConnection implements Connection {
 
     @Override
     public void saveInfo() {

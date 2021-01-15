@@ -1,4 +1,12 @@
-package com.andersen.patterns.creational.factorymethod;
+package com.andersen.patterns.creational.factorymethod.creator;
 
-public class MySqlDriver {
+import com.andersen.patterns.creational.factorymethod.product.Connection;
+import com.andersen.patterns.creational.factorymethod.product.MySqlConnection;
+
+public class MySqlDriver implements Driver {
+
+    @Override
+    public Connection createDatabaseConnection() {
+        return new MySqlConnection();
+    }
 }

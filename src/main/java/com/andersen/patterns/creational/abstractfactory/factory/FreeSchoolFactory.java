@@ -1,18 +1,20 @@
-package com.andersen.patterns.creational.abstractfactory;
+package com.andersen.patterns.creational.abstractfactory.factory;
 
-public class FreeSchool implements AbstractSchool{
+import com.andersen.patterns.creational.abstractfactory.product.*;
+
+public class FreeSchoolFactory implements AbstractSchool {
     @Override
     public Director createDirector() {
-        return null;
+        return new FreeSchoolDirector();
     }
 
     @Override
     public Teacher createTeacher() {
-        return null;
+        return new FreeSchoolTeacher();
     }
 
     @Override
     public SecurityGuard createSecurityGuard() {
-        return null;
+        return new FreeSchoolSecurityGuard();
     }
 }

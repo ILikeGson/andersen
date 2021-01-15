@@ -1,8 +1,6 @@
 package com.andersen.patterns.creational.factorymethod.product;
 
-import com.andersen.patterns.creational.factorymethod.product.Database;
-
-public class MySql implements Database {
+public class MySqlConnection implements Connection {
 
     @Override
     public void saveInfo() {

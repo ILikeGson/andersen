@@ -1,4 +1,4 @@
-package com.andersen.patterns.behavioral;
+package com.andersen.patterns.behavioral.templatemethod;
 
 public abstract class WebsiteTemplate {
 

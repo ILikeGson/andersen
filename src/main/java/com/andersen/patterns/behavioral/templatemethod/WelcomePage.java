@@ -1,4 +1,4 @@
-package com.andersen.patterns.behavioral;
+package com.andersen.patterns.behavioral.templatemethod;
 
 public class WelcomePage extends WebsiteTemplate {
     @Override

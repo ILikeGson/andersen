@@ -1,9 +1,9 @@
-package com.andersen.patterns.creational.abstractfactory;
+package com.andersen.patterns.creational.abstractfactory.product;
 
 public class FreeSchoolSecurityGuard implements SecurityGuard{
 
     @Override
     public void guard() {
-        System.out.println("Sleeps all day - drinks all night");
+        System.out.println("Security Guard: Sleeps all day - drinks all night");
     }
 }

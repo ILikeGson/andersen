@@ -1,6 +1,6 @@
 package com.andersen.patterns.creational.factorymethod.product;
 
-public interface Database {
+public interface Connection {
     void saveInfo();
     void readInfo();
 }

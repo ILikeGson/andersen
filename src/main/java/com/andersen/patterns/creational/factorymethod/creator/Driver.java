@@ -1,5 +1,7 @@
-package com.andersen.patterns.creational.factorymethod;
+package com.andersen.patterns.creational.factorymethod.creator;
+
+import com.andersen.patterns.creational.factorymethod.product.Connection;
 
 public interface Driver {
-    void createDatabase();
+    Connection createDatabaseConnection();
 }
