@@ -7,12 +7,12 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QueueTest {
-    private Queue<String> data;
+class ArrayQueueTest {
+    private ArrayQueue<String> data;
 
     @BeforeEach
     void fillList() {
-        data = new Queue<>();
+        data = new ArrayQueue<>();
         data.add("1");
         data.add("2");
         data.add("3");

@@ -1,4 +1,4 @@
-package com.andersen.collections;
+package com.andersen.maps;
 
 import java.util.Arrays;
 import java.util.Objects;

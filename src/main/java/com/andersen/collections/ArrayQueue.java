@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class Queue<E> {
+public class ArrayQueue<E> {
     private static final int DEFAULT_CAPACITY = 10;
     private Object[] data;
     private int size;
 
-    public Queue() {
+    public ArrayQueue() {
         this.data = new Object[DEFAULT_CAPACITY];
     }
 
