@@ -1,4 +1,6 @@
-package com.andersen.multithreading;
+package com.andersen.multithreading.thread;
+
+import com.andersen.multithreading.Resource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ public class ThreadLaunch {
         CountDownLatch latch = new CountDownLatch(10);
         for (int i = 0; i < 10; i++) {
             ThreadChild threadChild = new ThreadChild();
+            map.put(threadChild.getName(), new Resource("password"));
             threadChild.start();
         }
         latch.countDown();
