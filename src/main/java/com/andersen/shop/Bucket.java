@@ -5,4 +5,5 @@ public interface Bucket {
     void addProduct(Product product);
     void removeById(int id);
     void clear();
+    double price();
 }
