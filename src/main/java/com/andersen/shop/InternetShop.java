@@ -1,68 +1,60 @@
 package com.andersen.shop;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-@Getter
-@Setter
-public class InternetShop implements Shop, Serializable {
-    private static InternetShop shop;
-    private static Warehouse warehouse;
-    private List<User> users;
+@Data
+public class InternetShop implements Shop{
+    private List<Product> products;
+    private InternetShopBucket bucket;
 
-    private InternetShop() {
+    public InternetShop() {
+        this.products = new ArrayList<>();
+        this.bucket = new InternetShopBucket();
+        init();
     }
 
-    public static synchronized InternetShop getInstance() {
-        if (Objects.isNull(shop)) {
-            warehouse = new Warehouse();
-            return new InternetShop();
-        }
-        return shop;
+    private void init() {
+        addToProducts(new Product(11, "cucumber-new", "cucumber"));
+        //addToProducts(new Product(10, "lemon-new", "lemon"));
+        //addToProducts(new Product(15, "tomato-new", "tomato"));
     }
 
     @Override
     public void showAllProducts() {
-        warehouse.getProductQuantity().keySet().forEach(Product::showInfo);
+        products.forEach(Product::showInfo);
     }
 
     @Override
-    public void showProductsInBucket(int userId) {
-        users.get(userId).getBucket().showProducts();
+    public void showProductsInBucket() {
+        bucket.showProducts();
     }
 
     @Override
-    public void addProductToBucketById(int id, int userId) {
-        if (id >= 0 && id < warehouse.getProductQuantity().keySet().size()) {
-            System.out.println(users);
-            System.out.println(users.get(userId).getBucket());
-            users.get(userId).getBucket().addProduct(warehouse.getProductQuantity().keySet().stream().filter(x -> x.getId() == id).findAny().orElseThrow());
+    public Product addToProducts(Product product) {
+        products.add(product);
+        product.setId(products.size() - 1);
+        return product;
+    }
+
+    @Override
+    public void addProductToBucketById(int id) {
+        if (id >= 0 && id < products.size()) {
+            bucket.addProduct(products.get(id));
             return;
         }
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void removeFromBucketById(int id, int userId) {
-        users.get(userId).getBucket().removeById(id);
+    public void removeFromBucketById(int id) {
+        bucket.removeById(id);
     }
 
     @Override
-    public void clear(int userId) {
-        users.get(userId).getBucket().clear();
-    }
-
-    public int addUser(User user) {
-        if (Objects.isNull(users)) {
-            users = new ArrayList<>();
-        }
-        users.add(user);
-        user.setId(users.size() - 1);
-        return (users.size() - 1);
+    public void clear() {
+        bucket.clear();
     }
 }

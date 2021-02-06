@@ -1,5 +1,7 @@
 package com.andersen.shop;
 
+import java.util.Scanner;
+
 public class RequestHandler {
     private final InternetShop shop;
     private final ConsoleIOService service;
@@ -9,8 +11,8 @@ public class RequestHandler {
         this.service = service;
     }
 
-    public void handleRequest(int userId) {
-        String request;
+    public void handleRequest() {
+        String request = "";
         String[] partsOfRequest;
         while (!(request = service.getUserInput()).equals("exit")) {
             partsOfRequest = parse(request);
@@ -18,18 +20,17 @@ public class RequestHandler {
             if (command.equalsIgnoreCase("showProducts")) {
                 shop.showAllProducts();
             } else if (command.equalsIgnoreCase("showProductsInTheBucket")) {
-                shop.showProductsInBucket(userId);
+                shop.showProductsInBucket();
             } else if (command.equalsIgnoreCase("addProductToTheBucket")) {
-                shop.addProductToBucketById(Integer.parseInt(partsOfRequest[1].trim()), userId);
+                shop.addProductToBucketById(Integer.parseInt(partsOfRequest[1].trim()));
             } else if (command.equalsIgnoreCase("deleteProductFromTheBucket")) {
-                shop.removeFromBucketById(Integer.parseInt(partsOfRequest[1].trim()), userId);
+                shop.removeFromBucketById(Integer.parseInt(partsOfRequest[1].trim()));
             } else if (command.equalsIgnoreCase("clear")) {
-                shop.clear(userId);
+                shop.clear();
             } else {
                 throw new IllegalArgumentException();
             }
         }
-        Serializer.serialize(shop);
     }
 
 
