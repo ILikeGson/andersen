@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id = "dataSource"
+          class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name = "driverClassName" value = "com.mysql.cj.jdbc.Driver"/>
+        <property name = "url" value = "jdbc:mysql://localhost:3306/shop"/>
+        <property name = "username" value = "root"/>
+        <property name = "password" value = "password"/>
+    </bean>
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+
+    <bean class="com.andersen.shop.dao.BucketDaoImpl" id="bucketDao">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+    <bean class="com.andersen.shop.dao.ProductDaoImpl" id="productDao">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+
+
+    <bean class="com.andersen.shop.service.BucketServiceImpl" id="bucketService">
+        <constructor-arg ref="bucketDao"/>
+    </bean>
+    <bean class="com.andersen.shop.service.ProductServiceImpl" id="productService">
+        <constructor-arg ref="productDao"/>
+    </bean>
+
+
+    <bean class="com.andersen.shop.controller.BucketController">
+        <constructor-arg ref="bucketService"/>
+    </bean>
+    <bean class="com.andersen.shop.controller.ProductController">
+        <constructor-arg ref="productService"/>
+    </bean>
+
+    <bean class="com.andersen.shop.controller.WebController" id="webController"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+</beans>
