@@ -1,9 +1,6 @@
 package com.andersen.shop;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,7 +10,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @IsProductExpired
+@ToString
 public class Product implements Serializable {
+    private static final long serialVersionUID = 1L;
     private long id;
     private int price;
     private String name;
@@ -32,17 +31,5 @@ public class Product implements Serializable {
 
     void showInfo() {
         System.out.println(String.format("product id: %d\nproduct price: %s\nproduct description: %s\nis product expired? %s", id, price, description, isExpired));
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "price=" + price +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", createdDate=" + createdDate +
-                ", expiredDate=" + expiredDate +
-                ", isExpired=" + isExpired +
-                '}';
     }
 }

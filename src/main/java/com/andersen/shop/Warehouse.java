@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Getter
 public class Warehouse implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private Map<Product, Integer> productQuantity;
 
     public Warehouse() {

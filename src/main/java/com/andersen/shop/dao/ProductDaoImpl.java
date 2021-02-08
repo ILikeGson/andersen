@@ -3,17 +3,13 @@ package com.andersen.shop.dao;
 import com.andersen.shop.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao{
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/shop?user=root&password=password";
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public ProductDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -21,7 +17,6 @@ public class ProductDaoImpl implements ProductDao{
 
     @Override
     public void add(Product product) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update("INSERT INTO products(price, product_name, product_description, creating_date, expiring_date, is_expired) VALUES (?, ?, ?, ?, ?, ?)",
                 product.getPrice(), product.getName(), product.getDescription(),
                 Date.valueOf(product.getCreatedDate()), Date.valueOf(product.getExpiredDate()), product.isExpired());

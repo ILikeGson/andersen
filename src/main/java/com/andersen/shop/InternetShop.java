@@ -11,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public class InternetShop implements Shop, Serializable {
+    private static final long serialVersionUID = 1L;
     private static InternetShop shop;
     private static Warehouse warehouse;
     private List<User> users;

@@ -11,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public class InternetShopBucket implements Bucket, Serializable {
+    private static final long serialVersionUID = 1L;
     private long id;
     private User user;
     private List<Product> productBucket;
@@ -39,7 +40,7 @@ public class InternetShopBucket implements Bucket, Serializable {
 
     public double price() {
         final double[] price = new double[1];
-        if (user.getCurrency().getName().equalsIgnoreCase("UAH")) {
+        if (user.getCurrency().getName().equals(Currency.UAH.getName())) {
             productBucket.forEach(product -> price[0] = price[0] + (product.getPrice() * user.getCurrency().getCourse() * 1.2));
         } else {
             productBucket.forEach(product -> price[0] = price[0] + (product.getPrice() * user.getCurrency().getCourse() * 1.21));

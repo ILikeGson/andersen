@@ -1,19 +1,20 @@
 package com.andersen.shop;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 @Getter
-@Setter
-public class  Currency implements Serializable {
-    private String internationalCode;
-    private String name;
-    private double course;
-    private int multiplicity;
+public enum Currency implements Serializable {
+    UAH("001055", "UAH", 28.15, 1000000000), DLR("ISO 4217", "DLR", 1, 1000000000);
 
-    public Currency(String internationalCode, String name, double course, int multiplicity) {
+    static final long UUID = 1L;
+    private final String internationalCode;
+    private final String name;
+    private final double course;
+    private final int multiplicity;
+
+    private Currency(String internationalCode, String name, double course, int multiplicity) {
         this.internationalCode = internationalCode;
         this.name = name;
         this.course = course;
