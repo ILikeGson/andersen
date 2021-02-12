@@ -1,56 +1,53 @@
 package com.andersen.shop.dao;
 
-import com.andersen.shop.Product;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import com.andersen.shop.model.InternetShop;
+import com.andersen.shop.model.InternetShopBucket;
+import com.andersen.shop.model.Product;
+import com.andersen.shop.model.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
-
+@Repository
 public class BucketDaoImpl implements BucketDao {
-    private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
+    private final CountryDao countryDao;
 
-    public BucketDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public BucketDaoImpl(SessionFactory sessionFactory, CountryDao countryDao) {
+        this.sessionFactory = sessionFactory;
+        this.countryDao = countryDao;
     }
 
     @Override
     public void addProductToUserBucketById(int userId, int id) {
-        jdbcTemplate.update("INSERT INTO bucket VALUES(?, ?)", userId, id);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Product p where p.id = :id");
+        query.setParameter("id", id);
+        Product product = (Product) query.getSingleResult();
+
+        Query anotherQuery = session.createQuery("from User u where u.id = :userId");
+        anotherQuery.setParameter("userId", id);
+        User user = (User)anotherQuery.getSingleResult();
+        user.getBucket().addProduct(product);
+        session.flush();
     }
 
     @Override
     public List<Product> getAll(int userId) {
-        return jdbcTemplate.query("SELECT * FROM bucket where bucket_id = ?", new BucketRowMapper(), userId);
+        Session session = sessionFactory.getCurrentSession();
+        User user = session.get(User.class, userId);
+        return user.getBucket().getProductBucket();
     }
 
     @Override
     public void removeProductById(int userId, int id) {
-        jdbcTemplate.update("DELETE FROM bucket WHERE bucket_id = ? AND product_id = ?", userId, id);
-    }
-
-    private class BucketRowMapper implements RowMapper<Product> {
-        @Override
-        public Product mapRow(ResultSet resultSet, int i) throws SQLException {
-            int productId = resultSet.getInt(2);
-            return jdbcTemplate.queryForObject("SELECT * FROM products WHERE product_id = ?", new ProductRowMapper(), productId);
-        }
-    }
-
-    private class ProductRowMapper implements RowMapper<Product> {
-        @Override
-        public Product mapRow(ResultSet resultSet, int i) throws SQLException {
-            int id = resultSet.getInt(1);
-            int price = resultSet.getInt(2);
-            String name = resultSet.getString(3);
-            String description = resultSet.getString(4);
-            LocalDate createdDate = resultSet.getDate(5).toLocalDate();
-            LocalDate expiredDate = resultSet.getDate(6).toLocalDate();
-            boolean isExpired = resultSet.getBoolean(7);
-            return new Product(id, price, name, description, createdDate, expiredDate, isExpired);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query anotherQuery = session.createQuery("from InternetShopBucket u where u.id = :userId");
+        anotherQuery.setParameter("userId", userId);
+        InternetShopBucket bucket = (InternetShopBucket) anotherQuery.getSingleResult();
+        bucket.removeById(id);
     }
 }

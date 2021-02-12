@@ -15,8 +15,9 @@
         <th>description</th>
         <th>created date</th>
         <th>expired date</th>
+        <th>country</th>
     </tr>
-    <c:forEach items="${products}" var="product" begin="0" step="1">
+    <c:forEach items="${products}" var="product">
         <tr>
             <td>${product.id}</td>
             <td>${product.price}</td>
@@ -24,6 +25,7 @@
             <td>${product.description}</td>
             <td>${product.createdDate}</td>
             <td>${product.expiredDate}</td>
+            <td>${product.country.name}</td>
             <td><a href="/bucket/1/delete/${product.id}" data-method="delete">delete</a></td>
         </tr>
     </c:forEach>

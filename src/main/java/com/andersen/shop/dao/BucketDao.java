@@ -1,6 +1,6 @@
 package com.andersen.shop.dao;
 
-import com.andersen.shop.Product;
+import com.andersen.shop.model.Product;
 import java.util.List;
 
 public interface BucketDao {

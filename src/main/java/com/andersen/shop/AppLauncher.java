@@ -1,9 +1,15 @@
 package com.andersen.shop;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.andersen.shop.config.ApplicationConfig;
+import com.andersen.shop.config.DispatcherConfig;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+
 
 public class AppLauncher {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("WEB-INF/view/applicationContext.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(ApplicationConfig.class, DispatcherConfig.class);
+        context.refresh();
     }
 }

@@ -1,19 +1,16 @@
 package com.andersen.shop.controller;
 
-import com.andersen.shop.Product;
+import com.andersen.shop.model.Country;
+import com.andersen.shop.model.Product;
 import com.andersen.shop.service.ProductService;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DateFormat;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
+@Controller
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
@@ -39,8 +36,9 @@ public class ProductController {
                              @RequestParam("description") String description,
                              @RequestParam("created") String createdDate,
                              @RequestParam("expired") String expired,
+                             @RequestParam("country") String countryName,
                              Model model) {
-        productService.add(new Product(price, name, description, convert(createdDate), convert(expired)));
+        productService.add(new Product(price, name, description, convert(createdDate), convert(expired), new Country(countryName)));
         model.addAttribute("products" ,productService.getAll());
         return "redirect:/products";
     }

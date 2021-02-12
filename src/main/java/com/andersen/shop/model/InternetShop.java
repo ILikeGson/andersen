@@ -1,8 +1,11 @@
-package com.andersen.shop;
+package com.andersen.shop.model;
 
+import com.andersen.shop.Shop;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
