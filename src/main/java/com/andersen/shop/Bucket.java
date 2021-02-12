@@ -1,5 +1,7 @@
 package com.andersen.shop;
 
+import com.andersen.shop.model.Product;
+
 public interface Bucket {
     void showProducts();
     void addProduct(Product product);

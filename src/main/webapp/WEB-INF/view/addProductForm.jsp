@@ -11,6 +11,7 @@
     <label>Description<input type="text" placeholder="" name="description" required="required"></label> <br>
     <label>Created Date<input type="date" placeholder="" name="created" required="required"></label> <br>
     <label>Expired Date<input type="date" placeholder="" name="expired" required="required"></label> <br>
+    <label>Country<input type="text" placeholder="" name="country" required="required"></label> <br>
     <input type="submit" >
 </form>
 </body>

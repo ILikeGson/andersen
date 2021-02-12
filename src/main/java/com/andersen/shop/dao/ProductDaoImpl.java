@@ -1,53 +1,44 @@
 package com.andersen.shop.dao;
 
-import com.andersen.shop.Product;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import com.andersen.shop.model.Product;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
+@Repository
 public class ProductDaoImpl implements ProductDao{
-    private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
+    private final CountryDao countryDao;
 
-    public ProductDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ProductDaoImpl(SessionFactory sessionFactory, CountryDao countryDao) {
+        this.sessionFactory = sessionFactory;
+        this.countryDao = countryDao;
     }
 
     @Override
     public void add(Product product) {
-        jdbcTemplate.update("INSERT INTO products(price, product_name, product_description, creating_date, expiring_date, is_expired) VALUES (?, ?, ?, ?, ?, ?)",
-                product.getPrice(), product.getName(), product.getDescription(),
-                Date.valueOf(product.getCreatedDate()), Date.valueOf(product.getExpiredDate()), product.isExpired());
+        product.setCountry(countryDao.findByName(product.getCountry().getName()));
+        sessionFactory.getCurrentSession().saveOrUpdate(product);
     }
 
     @Override
     public Product getById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM products WHERE product_id = ?", new ProductRowMapper(), id);
+        Query query = sessionFactory.getCurrentSession().createQuery("from Product where id =: id");
+        query.setParameter("id", id);
+        return (Product) query.uniqueResult();
     }
 
     @Override
     public List<Product> getAll() {
-        return jdbcTemplate.query("SELECT * FROM products", new ProductRowMapper());
+        return sessionFactory.getCurrentSession().createQuery("Select p from Product p", Product.class).getResultList();
     }
 
     @Override
     public void deleteById(int id) {
-        jdbcTemplate.update("DELETE FROM products WHERE product_id = ?", id);
-    }
-
-    private class ProductRowMapper implements RowMapper<Product> {
-        @Override
-        public Product mapRow(ResultSet resultSet, int i) throws SQLException {
-                int id = resultSet.getInt(1);
-                int price = resultSet.getInt(2);
-                String name = resultSet.getString(3);
-                String description = resultSet.getString(4);
-                LocalDate createdDate = resultSet.getDate(5).toLocalDate();
-                LocalDate expiredDate = resultSet.getDate(6).toLocalDate();
-                boolean isExpired = resultSet.getBoolean(7);
-                return new Product(id, price, name, description, createdDate, expiredDate, isExpired);
-        }
+        Query query = sessionFactory.getCurrentSession().createQuery("delete from Product where id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

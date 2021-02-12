@@ -1,11 +1,13 @@
 package com.andersen.shop.service;
 
-import com.andersen.shop.Product;
+import com.andersen.shop.model.Product;
 import com.andersen.shop.dao.ProductDao;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
 

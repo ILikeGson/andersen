@@ -1,5 +1,7 @@
 package com.andersen.shop;
 
+import com.andersen.shop.model.Product;
+
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 

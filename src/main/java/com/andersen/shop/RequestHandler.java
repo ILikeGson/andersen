@@ -1,5 +1,7 @@
 package com.andersen.shop;
 
+import com.andersen.shop.model.InternetShop;
+
 public class RequestHandler {
     private final InternetShop shop;
     private final ConsoleIOService service;

@@ -1,5 +1,7 @@
 package com.andersen.shop;
 
+import com.andersen.shop.model.InternetShop;
+
 import java.io.*;
 
 public class Serializer {
